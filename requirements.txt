@@ -1,0 +1,4 @@
+watchdog==2.1.9
+pyicloud==0.10.2
+python-dotenv==0.19.2
+requests==2.27.1
