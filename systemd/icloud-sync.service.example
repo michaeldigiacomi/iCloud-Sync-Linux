@@ -1,0 +1,27 @@
+[Unit]
+Description=iCloud Sync Linux Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Adjust User, Group, WorkingDirectory as needed
+User=%i
+Group=%i
+WorkingDirectory=/home/%i/iCloud-Sync-Linux
+Environment=PYTHONUNBUFFERED=1
+# Option A: Use .env file (dotenv not auto-loaded by systemd, export variables here or via EnvironmentFile)
+# EnvironmentFile=/etc/default/icloud-sync
+ExecStart=/home/%i/iCloud-Sync-Linux/.venv/bin/python -m icloud_sync --interval 600
+Restart=on-failure
+RestartSec=10
+
+# Hardening (optional)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/home/%i/iCloud /var/log /home/%i/icloud-sync.log
+
+[Install]
+WantedBy=multi-user.target

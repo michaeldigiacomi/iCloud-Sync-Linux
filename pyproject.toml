@@ -1,0 +1,58 @@
+[project]
+name = "icloud-sync-linux"
+version = "0.1.0"
+description = "iCloud Drive sync utility for Linux"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [{name = "Your Name"}]
+keywords = ["icloud", "sync", "linux"]
+dependencies = [
+  # Bumped versions / relaxed pins for Python 3.12 compatibility
+  "watchdog>=3.0.0,<4",
+  # pyicloud project is largely unmaintained; keep for now but allow newer fork versions if available
+  "pyicloud>=0.10.2",
+  # Ensure modern keyring to avoid legacy 'collections.Callable' import error
+  "keyring>=24.3.1",
+  "python-dotenv>=1.0.0,<2",
+  "requests>=2.31.0,<3"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "mypy>=1.8.0",
+  "types-requests",
+  "ruff>=0.5.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/iCloud-Sync-Linux"
+
+[project.scripts]
+icloud-sync = "icloud_sync.__main__:main"
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["icloud_sync*"]
+exclude = ["systemd*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E","F","I","B","UP","SIM","PL"]
+ignore = ["E203","E501"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+ignore_missing_imports = true
+show_error_codes = true
+strict_optional = false
+disallow_untyped_defs = false
+no_implicit_optional = true
